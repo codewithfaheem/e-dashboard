@@ -17,12 +17,8 @@ function MainNav() {
             <Nav.Link href="/products">Products</Nav.Link>
             <Nav.Link href="/add-product">Add Product</Nav.Link>
             <Nav.Link href="/update-product">Update Product</Nav.Link>
-            {auth &&
-              <Nav.Link href="/profile">My Profile</Nav.Link>
-            }
-            {auth &&
-              <Nav.Link href="/logout">Logout</Nav.Link>
-            }
+            {auth &&  <Nav.Link href="/profile">My Profile</Nav.Link>}
+            {auth &&  <Nav.Link href="/logout">Logout</Nav.Link>}
           </Nav>
         </Navbar.Collapse>
       </Container>
