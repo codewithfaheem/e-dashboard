@@ -1,58 +1,26 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './App.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from '../Pages/Home';
-import About from '../Pages/About';
-import Login from '../Pages/Login';
-import SignUp from '../Pages/signUp';
-
-const router = createBrowserRouter([
-  {
-    path:'/',
-    element: <Login />
-  },
-  {
-    path:'/login',
-    element: <Login />
-  },
-  {
-    path:'/signup',
-    element: <SignUp />
-  },
-  {
-    path:'/home',
-    element: <Home />
-  },
-  {
-    path:'/about',
-    element: <Home />
-  },
-  {
-    path:'/products',
-    element: <Home />
-  },
-  {
-    path:'/add-product',
-    element: <Home />
-  },
-  {
-    path:'/update-product',
-    element: <About />
-  },
-  {
-    path:'/logout',
-    element: <About />
-  },
-  {
-    path:'/profile',
-    element: <About />
-  },
-])
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PrivateComponent from "../Pages/PrivateComponent";
+import Home from "../Pages/Home";
+import About from "../Pages/About";
+import Login from "../Pages/Login";
+import SignUp from "../Pages/signUp";
 
 function App() {
   return (
     <div className="App">
-        <RouterProvider router={router} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route element={<PrivateComponent />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

@@ -1,20 +1,38 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 const SignUp = () => {
-    const name = useRef()
-    const email = useRef()
-    const password = useRef()
-    const confirmPassword = useRef()
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
-        let data = {
-            name: name.current.value,
-            email: email.current.value,
-            password: password.current.value,
-            confirmPassword: confirmPassword.current.value,
-        }
-        console.log(data);
+  const redirect = useNavigate();
+  const name = useRef();
+  const email = useRef();
+  const password = useRef();
+  const confirmPassword = useRef();
+
+  useEffect(() => {
+    let auth = localStorage.getItem("user");
+    if(auth){
+      redirect("/home");
     }
+  });
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    let data = {
+      name: name.current.value,
+      password: password.current.value,
+      email: email.current.value,
+    };
+    let result = await fetch("http://localhost:3001/register", {
+        method: "post",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (result.status === 200) result = await result.json();
+    localStorage.setItem("user", JSON.stringify(result));
+    return redirect("/login");
+  };
   return (
     <div>
       <Container>
@@ -31,29 +49,39 @@ const SignUp = () => {
                     <Form onSubmit={onSubmitHandler}>
                       <Form.Group className="mb-3" controlId="Name">
                         <Form.Label className="text-center">Name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Name" ref={name} />
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter Name"
+                          ref={name}
+                        />
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">
                           Email address
                         </Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" ref={email} />
+                        <Form.Control
+                          type="email"
+                          placeholder="Enter email"
+                          ref={email}
+                        />
                       </Form.Group>
 
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicPassword"
-                      >
+                      <Form.Group className="mb-3" controlId="password">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" ref={password} />
+                        <Form.Control
+                          type="text"
+                          placeholder="Password"
+                          ref={password}
+                        />
                       </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicPassword"
-                      >
+                      <Form.Group className="mb-3" controlId="confirmPassword">
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" ref={confirmPassword} />
+                        <Form.Control
+                          type="text"
+                          placeholder="Password"
+                          ref={confirmPassword}
+                        />
                       </Form.Group>
                       <Form.Group
                         className="mb-3"

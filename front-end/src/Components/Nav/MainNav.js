@@ -2,9 +2,9 @@ import React  from "react";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import {Link} from 'react-router-dom';
 
 function MainNav() {
+  let auth = localStorage.getItem("user");
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -17,8 +17,12 @@ function MainNav() {
             <Nav.Link href="/products">Products</Nav.Link>
             <Nav.Link href="/add-product">Add Product</Nav.Link>
             <Nav.Link href="/update-product">Update Product</Nav.Link>
-            <Nav.Link href="/profile">My Profile</Nav.Link>
-            <Nav.Link href="/logout">Logout</Nav.Link>
+            {auth &&
+              <Nav.Link href="/profile">My Profile</Nav.Link>
+            }
+            {auth &&
+              <Nav.Link href="/logout">Logout</Nav.Link>
+            }
           </Nav>
         </Navbar.Collapse>
       </Container>
