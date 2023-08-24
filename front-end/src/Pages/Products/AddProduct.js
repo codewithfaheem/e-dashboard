@@ -1,9 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 const AddProduct = () => {
 
     const redirect = useNavigate();
+
+    const [validated, SetValidated] = useState(false)
 
     const name = useRef()
     const category = useRef()
@@ -12,6 +14,11 @@ const AddProduct = () => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
+        SetValidated(true)
+        const form = e.currentTarget;
+        if (form.checkValidity() === false){
+          return(false)
+        }
         const data = {
             name: name.current.value, 
             category: category.current.value, 
@@ -29,7 +36,6 @@ const AddProduct = () => {
             result = await result.json();
             redirect("/products")
         }
-        console.log(result);
     }
 
   return (
@@ -45,14 +51,16 @@ const AddProduct = () => {
                     Add Product
                   </h2>
                   <div className="mb-3">
-                    <Form onSubmit={onSubmitHandler}>
+                    <Form noValidate validated={validated} onSubmit={onSubmitHandler}>
                       <Form.Group className="mb-3" controlId="Name">
                         <Form.Label className="text-center">Name</Form.Label>
                         <Form.Control
+                          required
                           type="text"
                           placeholder="Enter Product Name"
                           ref={name}
                         />
+                        <Form.Control.Feedback type="invalid">Please enter Name</Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="category">
@@ -60,28 +68,34 @@ const AddProduct = () => {
                           Category
                         </Form.Label>
                         <Form.Control
+                          required
                           type="text"
-                          placeholder="Enter Product Name"
+                          placeholder="Enter Product Category"
                           ref={category}
                         />
+                        <Form.Control.Feedback type="invalid">Please enter Category</Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="company">
                         <Form.Label className="text-center">Company</Form.Label>
                         <Form.Control
+                          required
                           type="text"
                           placeholder="Enter Product Name"
                           ref={company}
                         />
+                        <Form.Control.Feedback type="invalid">Please enter Company</Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="price">
                         <Form.Label className="text-center">Price</Form.Label>
                         <Form.Control
+                          required
                           type="number"
                           placeholder="Enter Product Name"
                           ref={price}
                         />
+                        <Form.Control.Feedback type="invalid">Please enter Price</Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group
                         className="mb-3"
