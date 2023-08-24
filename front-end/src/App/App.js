@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import PrivateComponent from "../Pages/PrivateComponent";
 import ErrorNotFound from "../Pages/ErrorNotFound"
 import Home from "../Pages/Home";
@@ -12,6 +12,10 @@ import Products from "../Pages/Products/Products";
 import MainNav from "../Components/Nav/MainNav";
 
 function App() {
+  const url = window.location.href;
+  console.log(url)
+
+
   return (
     <div className="App">
       <BrowserRouter>

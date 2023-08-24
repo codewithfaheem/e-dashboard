@@ -1,7 +1,22 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Container, Table } from "react-bootstrap";
 
 const Products = () => {
+
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+     getProducts();
+  })
+
+  const getProducts = async () => {
+    let result = await fetch("ttp://localhost:3001/products");
+    console.log(result);
+    result = await result.json()
+    setProducts(result)
+    console.log(result)
+  }
+
   return (
     <div>
       <Container>
