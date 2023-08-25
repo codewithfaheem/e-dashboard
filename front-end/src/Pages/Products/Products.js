@@ -1,57 +1,76 @@
-import React, {useState, useEffect} from "react";
-import { Container, Table } from "react-bootstrap";
+import React, { useState, useEffect } from "react"
+import { Container, Table } from "react-bootstrap"
 
 const Products = () => {
 
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-     getProducts();
-  })
+    getProducts()
+  }, [])
 
   const getProducts = async () => {
-    let result = await fetch("ttp://localhost:3001/products");
-    console.log(result);
+    let result = await fetch("http://localhost:3001/products")
+    if(result.status === 200)
+    {
+      result = await result.json()
+      setProducts(result)
+    }
+    return
+  }
+
+  const deleteProductHandle = async (e) => {
+
+    let result = await fetch(`http://localhost:3001/product/${e}`,{
+      method:"Delete"
+    })
     result = await result.json()
-    setProducts(result)
-    console.log(result)
+    if (result) getProducts()
   }
 
   return (
     <div>
-      <Container>
+      <Container className="mt-5">
         <Table striped bordered hover>
           <thead>
             <tr>
               <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Company</th>
+              <th>Price</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td colSpan={2}>Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
+            {products.length > 0 ? 
+              <>
+                {products.map((Item, key) => {
+                  return (
+                    <tr key={Item._id}>
+                      <td>{key + 1}</td>
+                      <td>{Item.name}</td>
+                      <td>{Item.category}</td>
+                      <td>{Item.company}</td>
+                      <td>{Item.price}</td>
+                      <td width={100} align="center">
+                        <i className="font-icon bi bi-trash3 mx-2 text-danger" onClick={() => deleteProductHandle(Item._id)}></i>
+                        <i className="font-icon bi bi-pencil-square mx-2"></i>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </>
+            :
+              <tr>
+                <td colSpan={6} align="center">No product found</td>
+              </tr>
+            }
           </tbody>
         </Table>
       </Container>
     </div>
-  );
-};
+  )
+}
 
-export default Products;
+export default Products

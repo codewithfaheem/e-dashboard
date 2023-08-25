@@ -34,10 +34,9 @@ const AddProduct = () => {
         })
         if(result.status === 200){
             result = await result.json();
-            redirect("/products")
+            // redirect("/products")
         }
     }
-
   return (
     <div>
       <Container>
