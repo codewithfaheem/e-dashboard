@@ -55,7 +55,7 @@ const Products = () => {
                       <td>{Item.price}</td>
                       <td width={100} align="center">
                         <i className="font-icon bi bi-trash3 mx-2 text-danger" onClick={() => deleteProductHandle(Item._id)}></i>
-                        <i className="font-icon bi bi-pencil-square mx-2"></i>
+                        <a href={`/update-product/${Item._id}`}><i className="font-icon bi bi-pencil-square mx-2"></i></a>
                       </td>
                     </tr>
                   )

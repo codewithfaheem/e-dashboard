@@ -11,12 +11,9 @@ import SignUp from "../Pages/signUp";
 import AddProduct from "../Pages/Products/AddProduct";
 import Products from "../Pages/Products/Products";
 import MainNav from "../Components/Nav/MainNav";
+import UpdateProduct from "../Pages/Products/UpdateProduct";
 
 function App() {
-  const url = window.location.href;
-  console.log(url)
-
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -30,6 +27,7 @@ function App() {
           <Route element={<PrivateComponent />}>
             <Route path="/home" element={<Home />} />
             <Route path="/add-product" element={<AddProduct/>} />
+            <Route path="/update-product/:id" element={<UpdateProduct/>} />
             <Route path="/products" element={<Products/>} />
           </Route>
         </Routes>
