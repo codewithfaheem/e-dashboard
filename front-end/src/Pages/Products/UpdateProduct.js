@@ -46,8 +46,8 @@ const UpdateProduct = () => {
             company: company.current.value, 
             price: price.current.value
         }
-        let result = await fetch("http://localhost:3001/add-product", {
-            method: "post",
+        let result = await fetch(`http://localhost:3001/product/${params.id}`, {
+            method: "put",
             body: JSON.stringify(data),
             headers: {
                 "Content-Type" : "application/json"
@@ -55,7 +55,7 @@ const UpdateProduct = () => {
         })
         if(result.status === 200){
             result = await result.json();
-            // redirect("/products")
+            redirect("/products")
         }
     }
   return (
@@ -123,7 +123,7 @@ const UpdateProduct = () => {
                       ></Form.Group>
                       <div className="d-grid">
                         <Button variant="primary" type="submit">
-                          Add Product
+                          Update Product
                         </Button>
                       </div>
                     </Form>

@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post("/register", async (req, res) => {
+app.post("/register", async (req, res) => { // User Register
   let user = new User(req.body);
   let result = await user.save();
   result = result.toObject();
@@ -19,7 +19,7 @@ app.post("/register", async (req, res) => {
   res.send(result);
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", async (req, res) => { // User Login
   if(req.body.email && req.body.password){
     let user = await User.findOne(req.body).select("-password");
     if(user){
@@ -32,13 +32,13 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/add-product", async (req, res) => {
+app.post("/add-product", async (req, res) => { // Product Add
   let product = new Product(req.body);
   let result = await product.save();
   res.send(result);
 })
 
-app.get("/products", async (req, res) => {
+app.get("/products", async (req, res) => { // Product listing
   let products = await Product.find();
   if(products.length > 0){
     res.status(200).send(products);
@@ -47,14 +47,24 @@ app.get("/products", async (req, res) => {
   }
 })
 
-app.get("/product/:id", async (req, res) => {
-  console.log(req.params.id)
+app.get("/product/:id", async (req, res) => { // Product search API on ID
   const product = await Product.find({_id:req.params.id})
   if(product.length > 0){
     res.status(200).send(product);
   }else{
     res.status(404).send("No product found")
   }
+})
+
+app.get("/product/search/:key", async (req, res) => { // Product search API
+  const product = await Product.find({
+    "$or" : [
+      {name:{$regex:req.params.key}},
+      {category:{$regex:req.params.key}},
+      {company:{$regex:req.params.key}}
+    ]
+  })
+  res.status(200).send(product);
 })
 
 app.put("/product/:id", async (req, res) => {
