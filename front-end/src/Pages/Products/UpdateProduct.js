@@ -58,6 +58,11 @@ const UpdateProduct = () => {
             redirect("/products")
         }
     }
+
+    const cancelHandel = (e) => {
+      e.preventDefault();
+      redirect("/products")
+    }
   return (
     <div>
       <Container>
@@ -113,6 +118,7 @@ const UpdateProduct = () => {
                           required
                           type="number"
                           placeholder="Enter Product Name"
+                          step={"any"}
                           ref={price}
                         />
                         <Form.Control.Feedback type="invalid">Please enter Price</Form.Control.Feedback>
@@ -121,8 +127,11 @@ const UpdateProduct = () => {
                         className="mb-3"
                         controlId="formBasicCheckbox"
                       ></Form.Group>
-                      <div className="d-grid">
-                        <Button variant="primary" type="submit">
+                      <div className="d-flex justify-content-end">
+                        <Button variant="default" type="button" onClick={cancelHandel}>
+                          Cancel
+                        </Button>
+                        <Button variant="primary" type="submit" className="ms-2">
                           Update Product
                         </Button>
                       </div>
