@@ -33,9 +33,30 @@ app.post("/login", async (req, res) => { // User Login
 });
 
 app.post("/add-product", async (req, res) => { // Product Add
-  let product = new Product(req.body);
-  let result = await product.save();
-  res.send(result);
+  try{
+    if(!req.body.name || !req.body.category || !req.body.price || req.body.rating < 0 || req.body.rating > 5){
+      if(!req.body.name){
+        return res.status(400).send("Please enter product name")
+      }else if(!req.body.category){
+        return res.status(400).send("Please enter product category")
+      }else if(!req.body.price){
+        return res.status(400).send("Please enter product price")
+      }else if (req.body.rating < 0 || req.body.rating > 5){
+        return res.status(400).send("Rating should be in 0 to 5")
+      }
+      else{
+        return res.status(400).send("Name, Category and Price fields are required")
+      }
+    }
+
+    let product = new Product(req.body);
+    let result = await product.save();
+    res.status(200).send(result);
+
+  } catch(err){
+    console.log("Error adding product: ", err);
+    res.status(500).send("An error occurred while adding product.")
+  }
 })
 
 app.get("/products", async (req, res) => { // Product listing

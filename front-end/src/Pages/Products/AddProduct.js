@@ -40,6 +40,7 @@ const AddProduct = () => {
         })
         if(result.status === 200){
             result = await result.json();
+            console.log(result)
             // redirect("/products")
         }
     }

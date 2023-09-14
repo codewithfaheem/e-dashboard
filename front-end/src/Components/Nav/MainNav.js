@@ -17,15 +17,13 @@ function MainNav() {
       <Container>
         <Navbar.Brand href="/">React-Bootstrap</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Nav>
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/about">About</Nav.Link>
             {auth &&
               <>
                 <Nav.Link href="/products">Products</Nav.Link>
-                <Nav.Link href="/add-product">Add Product</Nav.Link>
-                <Nav.Link href="/update-product">Update Product</Nav.Link>
                 <Nav.Link href="/profile">My Profile</Nav.Link>
                 <Nav.Link href="/login" onClick={logout}>Logout</Nav.Link>
               </>
